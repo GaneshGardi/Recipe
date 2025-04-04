@@ -1,49 +1,57 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Login() {
+function Login({ setIsLoggedIn }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
+  const navigate = useNavigate();
 
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const navigate = useNavigate();
+    const data = {
+      email: email,
+      password: password,
+    };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        console.log(email + " " + password)
-        
-        const data = {
-            "email": email,
-            "password": password
+    try {
+      const res = await axios.post('http://localhost:8080/login', data);
+
+      if (res.data === false) {
+        alert('Invalid credentials');
+      } else {
+        alert('Login Success');
+
+        // Store user data in localStorage
+        localStorage.setItem('username', res.data.username);
+        localStorage.setItem('email', res.data.email);
+        localStorage.setItem('userId', res.data.id);
+
+        // Optional: update login state in parent component
+        if (typeof setIsLoggedIn === 'function') {
+          setIsLoggedIn(true);
         }
 
-        try{
-            const res = await axios.post("http://localhost:8080/login", data);
-
-            if(res.data == false){
-                alert("invalid credentials")
-            }else{
-                alert("Login Success")
-                navigate("/home")
-            }
-        }catch(err){
-            console.log(err);
-        }
+        // Navigate to home page
+        navigate('/home');
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      alert('Login failed. Please try again.');
     }
-
+  };
 
   return (
     <section className="flex items-center justify-center min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="w-full max-w-md p-6 space-y-6 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border dark:border-gray-700">
         <h1 className="text-2xl font-bold text-gray-900 dark:text-white text-center">
-          Create an account
+          Login to your account
         </h1>
         <form className="space-y-4" onSubmit={handleSubmit}>
-         
           <div>
-            <label htmlFor="email" className="block pb-1  text-sm font-medium text-gray-900 dark:text-white">
+            <label htmlFor="email" className="block pb-1 text-sm font-medium text-gray-900 dark:text-white">
               Your Email
             </label>
             <input
@@ -80,14 +88,14 @@ function Login() {
           </button>
         </form>
         <p className="text-sm text-center text-gray-500 dark:text-gray-400">
-          Don't have an account?{" "}
-          <Link to={"/register"} className="font-medium text-blue-600 hover:underline dark:text-blue-500">
-            Register 
+          Don't have an account?{' '}
+          <Link to="/register" className="font-medium text-blue-600 hover:underline dark:text-blue-500">
+            Register
           </Link>
         </p>
       </div>
     </section>
-  )
+  );
 }
 
-export default Login
+export default Login;

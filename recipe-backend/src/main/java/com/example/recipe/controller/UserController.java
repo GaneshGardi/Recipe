@@ -1,14 +1,11 @@
 package com.example.recipe.controller;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+
 import com.example.recipe.model.User;
 import com.example.recipe.request.LoginRequest;
 import com.example.recipe.service.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin("*")
@@ -19,31 +16,28 @@ public class UserController {
 
     @PostMapping("/addUser")
     public ResponseEntity<User> addUser(@RequestBody User user){
-        User user1 = userService.addUser(user);
-        if(user1 != null){
-            return new ResponseEntity<>(user1, HttpStatus.valueOf(201));
+        User savedUser = userService.addUser(user);
+        if(savedUser != null){
+            return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        else{
-            return new ResponseEntity<>(HttpStatus.valueOf(500));
-        }
-    } 
+    }
 
-//     @PostMapping("/login")
-//     public ResponseEntity<String> loginUser(@RequestBody LoginRequest loginRequest) {
-//     Boolean isAuthenticated = userService.loginUser(loginRequest);
+    @PostMapping("/login")
+public ResponseEntity<?> loginUser(@RequestBody LoginRequest loginRequest) {
+    User user = userService.loginUser(loginRequest);
 
-//     if (isAuthenticated == null) {
-//         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-//     } else if (isAuthenticated) {
-//         return ResponseEntity.ok("Login Successful"); // 200 OK
-//     } else {
-//         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Wrong Credentials");
-//     }
-// }
-     @PostMapping("/login")
-        public Boolean loginUser(@RequestBody LoginRequest loginRequest){
-         return userService.loginUser(loginRequest);
-    }   
+    if (user != null) {
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    } else {
+        return new ResponseEntity<>("Invalid credentials", HttpStatus.UNAUTHORIZED);
+    }
+}
 
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser(){
+        return new ResponseEntity<>("Logout Successful", HttpStatus.OK);
+    }
 }

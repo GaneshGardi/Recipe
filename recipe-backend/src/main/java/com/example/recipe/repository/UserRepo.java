@@ -9,4 +9,5 @@ import com.example.recipe.model.User;
 public interface UserRepo extends JpaRepository<User, Long> {
 
     User findByEmail(String email);
+    // User findByUsernameAndPassword(String username, String password);
 }

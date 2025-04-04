@@ -19,19 +19,35 @@ public class UserServiceImpl implements UserService {
         return userRepo.save(user);
     }
 
-    public Boolean loginUser(LoginRequest loginRequest){
+    @Override
+    public User loginUser(LoginRequest loginRequest) {
+       User user = userRepo.findByEmail(loginRequest.getEmail());
 
-        User user = userRepo.findByEmail(loginRequest.getEmail());
-
-        if(user == null){
-            return false;
-        }
-
-        if( user.getPassword().equals(loginRequest.getPassword())){
-            return true;
-        }
-        return false;
+       if(user != null && user.getPassword().equals(loginRequest.getPassword())){
+        return user;
+       }
+       return null;
     }
+
+    // public Boolean loginUser(LoginRequest loginRequest){
+
+    //     User user = userRepo.findByEmail(loginRequest.getEmail());
+
+    //     if(user == null){
+    //         return false;
+    //     }
+
+    //     if( user.getPassword().equals(loginRequest.getPassword())){
+    //         return true;
+    //     }
+    //     return false;
+    // }
+    
+    // public User findByUsernameAndPassword(String username, String password){
+    //     return userRepo.findByUsernameAndPassword(username, password);
+    // }
+
+    
     
 
 }
