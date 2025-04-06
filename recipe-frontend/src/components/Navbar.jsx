@@ -19,7 +19,7 @@ export const Navbar = () => {
   }
 
   return (
-    <div className='bg-red-500 flex justify-between py-3 px-6 items-center'>
+    <div className='bg-[#FEBA17] flex justify-between py-3 px-6 items-center'>
       <Link to={"/home"} className='text-3xl font-bold underline cursor-pointer'>Recipe</Link>
 
       {username && (
@@ -40,7 +40,7 @@ export const Navbar = () => {
             Logout
           </button>
         ) : (
-          <Link to={"/login"} className='hover:underline duration-100'>
+          <Link to={"/login"} className='hover:underline duration-100 cursor-pointer'>
             Logout
           </Link>
         )}

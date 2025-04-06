@@ -35,6 +35,7 @@ import { AddRecipe } from './components/AddRecipe'
 import { ViewRecipies } from './components/ViewRecipies'
 import { LayoutWithNavbar } from './components/LayoutWithNavbar'
 import { LayoutWithoutNavbar } from './components/LayoutWithoutNavbar'
+import { ExploreRecipe } from './components/ExploreRecipe'
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
         </Route>
         <Route element={<LayoutWithNavbar />}>
           <Route path="/home" element={<Home />} />
+        
           <Route path="/addRecipe" element={<AddRecipe />} />
           <Route path="/viewRecipies" element={<ViewRecipies />} />
         </Route>
