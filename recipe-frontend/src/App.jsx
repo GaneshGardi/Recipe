@@ -42,12 +42,13 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<LayoutWithoutNavbar />}>
+        <Route path='/' element={<Login/>}/>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>
         <Route element={<LayoutWithNavbar />}>
           <Route path="/home" element={<Home />} />
-        
+         
           <Route path="/addRecipe" element={<AddRecipe />} />
           <Route path="/viewRecipies" element={<ViewRecipies />} />
         </Route>

@@ -36,7 +36,7 @@ export const AddRecipe = () => {
     }
   }
   return (
-    <div className='bg-[#EFDCAB] w-full h-[calc(100vh-64px)] flex items-center justify-center'>
+    <div className='bg-[#EFDCAB] w-full h-screen flex items-center justify-center'>
 
       <div className='bg-sky-500 p-6 rounded-xl w-[490px]'>
         <form onSubmit={handleSubmit}>
